@@ -1,0 +1,62 @@
+import com.sss.plugin.AndroidX
+import com.sss.plugin.BuildVersion
+import com.sss.plugin.Deps
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+
+android {
+    compileSdkVersion BuildVersion.compileSdkVersion
+    buildToolsVersion BuildVersion.buildToolsVersion
+
+    defaultConfig {
+        applicationId BuildVersion.applicationId
+        minSdkVersion BuildVersion.minSdkVersion
+        targetSdkVersion BuildVersion.targetSdkVersion
+        versionCode BuildVersion.versionCode
+        versionName BuildVersion.versionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    implementation project(":base")
+    implementation project(":home")
+    implementation project(":net")
+    implementation project(":project")
+    implementation project(":webview")
+    implementation project(":faq")
+    implementation project(":navigation")
+    implementation project(":system")
+    implementation project(":user")
+    implementation AndroidX.multidex
+    kapt Deps.aroute_processor
+}

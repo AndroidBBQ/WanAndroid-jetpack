@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/color_0099ff</item>
+        <item name="colorPrimaryDark">@color/color_0099ff</item>
+        <item name="colorAccent">@color/color_0099ff</item>
+    </style>
+    <!--没有选中的样式-->
+    <style name="bottom_normal_text">
+        <item name="android:textColor">@color/color_3e3e3e</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--选中的样式-->
+    <style name="bottom_selected_text">
+        <item name="android:textColor">@color/color_0099ff</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

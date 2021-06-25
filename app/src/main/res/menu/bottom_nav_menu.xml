@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_icon_home"
+        android:title="首页" />
+
+
+    <item
+        android:id="@+id/navigation_faq"
+        android:icon="@drawable/ic_icon_faq"
+        android:title="问答" />
+
+    <item
+        android:id="@+id/navigation_navi"
+        android:icon="@drawable/ic_icon_navigation"
+        android:title="导航" />
+    <item
+        android:id="@+id/navigation_tree"
+        android:icon="@drawable/ic_icon_system"
+        android:title="体系" />
+
+    <item
+        android:id="@+id/navigation_mine"
+        android:icon="@drawable/ic_icon_mine"
+        android:title="我的" />
+
+</menu>

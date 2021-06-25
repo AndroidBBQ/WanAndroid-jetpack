@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.bbq.home.viewmodel.HomeViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_sear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/theme"
+            app:layout_constraintBottom_toTopOf="@id/recycler_article"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/view_bg"
+                android:layout_width="@dimen/dp_0"
+                android:layout_height="@dimen/dp_26"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginBottom="@dimen/dp_12"
+                android:background="@drawable/shape_top_search_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/iv_add"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="13dp"
+                android:layout_height="13dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_search"
+                app:layout_constraintBottom_toBottomOf="@id/view_bg"
+                app:layout_constraintLeft_toLeftOf="@id/view_bg"
+                app:layout_constraintTop_toTopOf="@id/view_bg" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_hot_key"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_26"
+                android:layout_marginLeft="@dimen/dp_10"
+                app:layout_constraintBottom_toBottomOf="@id/view_bg"
+                app:layout_constraintLeft_toRightOf="@id/iv_search"
+                app:layout_constraintRight_toRightOf="@id/view_bg"
+                app:layout_constraintTop_toTopOf="@id/view_bg" />
+
+            <ImageView
+                android:id="@+id/iv_add"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="@dimen/dp_20"
+                android:background="@drawable/ic_add"
+                android:padding="15dp"
+                app:layout_constraintBottom_toBottomOf="@id/view_bg"
+                app:layout_constraintLeft_toRightOf="@id/view_bg"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/view_bg" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_article"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/top_sear" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

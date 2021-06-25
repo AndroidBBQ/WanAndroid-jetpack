@@ -1,0 +1,90 @@
+import com.sss.plugin.AndroidX
+import com.sss.plugin.BuildVersion
+import com.sss.plugin.Deps
+import com.sss.plugin.Kotlin
+
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
+
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
+android {
+    compileSdkVersion BuildVersion.compileSdkVersion
+    buildToolsVersion BuildVersion.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion BuildVersion.minSdkVersion
+        targetSdkVersion BuildVersion.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    api project(":net")
+    api(AndroidX.appcompat)
+    api(AndroidX.constraintlayout)
+    api(AndroidX.core_ktx)
+    api(AndroidX.navigation_ui_ktx)
+    api(AndroidX.navigation_fragment_ktx)
+    api(AndroidX.lifecycle_livedata_ktx)
+    api(AndroidX.lifecycle_viewmodel_ktx)
+    api(AndroidX.lifecycle_runtime_ktx)
+    api(AndroidX.room_common)
+    api(AndroidX.room_ktx)
+    api(AndroidX.room_runtime)
+    api(AndroidX.paging_runtime)
+    api(Kotlin.koin_core)
+    api(Kotlin.koin_core_ext)
+    api(Kotlin.koin_androidx_ext)
+    api(Kotlin.koin_androidx_scope)
+    api(Kotlin.koin_androidx_fragment)
+    api(Kotlin.koin_androidx_viewmodel)
+    api(Kotlin.koin_androidx_scope)
+    api(Deps.BRVAH)
+    api(Deps.aroute)
+    api(Deps.materia)
+    api(Deps.glide)
+    api(Deps.xxpermissions)
+    api(Deps.toastutils)
+    api(Deps.refresh_layout_kernel)
+    api(Deps.refresh_footer_classics)
+    api(Deps.refresh_header_classics)
+    api(Deps.skeleton)
+    api(Deps.shimmerlayout)
+    api(Deps.loadsir)
+    api(Deps.mmkv)
+
+
+    kapt Deps.aroute_processor
+    kapt Deps.glideCompiler
+    kapt AndroidX.room_compiler
+
+}
