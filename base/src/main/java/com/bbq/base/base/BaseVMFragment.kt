@@ -22,9 +22,12 @@ abstract class BaseVMFragment<T : ViewDataBinding> : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView(view)
         initData()
         startObserver()
     }
+
+    abstract fun initView(view: View)
 
     open fun startObserver() {
 

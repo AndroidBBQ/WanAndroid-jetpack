@@ -18,6 +18,7 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="color_item_article_bg">#FFF7F8FC</color>
     <color name="theme">#272a36</color>
     <color name="color_3e3e3e">#3e3e3e</color>
     <color name="color_0099ff">#0099ff</color>
@@ -52,4 +53,9 @@
     <color name="colorBrown">#FFBB7777</color>
     <color name="colorBrownLight">#C9A375</color>
     <color name="colorPink">#FFEF78D5</color>
+
+
+    <color name="bg">#F0F0F0</color>
+
+
 </resources>

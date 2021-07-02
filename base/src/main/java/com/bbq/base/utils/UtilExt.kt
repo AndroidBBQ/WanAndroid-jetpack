@@ -28,6 +28,11 @@ fun Any?.isNull() = this == null
 fun Any?.isNotNull() = !isNull()
 
 
+fun Boolean?.truely() = this != null && this
+
+fun Boolean?.falsely() = !truely()
+
+
 private val mColors = arrayOf(
     R.color.colorBlue.getResColor(),
     R.color.colorBlueLight.getResColor(),

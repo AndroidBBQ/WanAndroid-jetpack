@@ -18,7 +18,7 @@ open class BaseActivity : AppCompatActivity() {
         //向上便宜
         StatusBarUtil.setTransparentForWindow(this)
         //让模式我深色模式，也就是状态懒字体变黑
-        StatusBarUtil.setDarkMode(this)
+//        StatusBarUtil.setDarkMode(this)
     }
 
     override fun onDestroy() {

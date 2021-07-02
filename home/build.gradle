@@ -1,18 +1,13 @@
 import com.sss.plugin.AndroidX
 import com.sss.plugin.BuildVersion
 import com.sss.plugin.Deps
-import com.sss.plugin.Kotlin
 
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
-kapt {
-    arguments {
-        arg("AROUTER_MODULE_NAME", project.getName())
-    }
-}
+
 android {
     compileSdkVersion BuildVersion.compileSdkVersion
     buildToolsVersion BuildVersion.buildToolsVersion
@@ -47,7 +42,9 @@ android {
 
 dependencies {
     implementation project(":base")
-    api(Kotlin.kotlin_stdlib)
-    kapt Deps.aroute_processor
+    implementation Deps.banner
+    implementation Deps.flexbox
     kapt AndroidX.room_compiler
+
+
 }

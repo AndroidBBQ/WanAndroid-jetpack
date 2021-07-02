@@ -1,10 +1,9 @@
 package com.bbq.home.db
 
 import androidx.room.TypeConverter
-import com.bbq.home.bean.Tag
+import com.bbq.home.bean.ArticleTag
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.*
 
 /**
  * @date：2021/5/20
@@ -13,14 +12,14 @@ import java.util.*
  */
 class TagTypeConverter {
     @TypeConverter
-    fun stringToObject(value: String): List<Tag> {
-        val listType = object : TypeToken<List<Tag>>() {
+    fun stringToObject(value: String): List<ArticleTag> {
+        val listType = object : TypeToken<List<ArticleTag>>() {
         }.type
         return Gson().fromJson(value, listType)
     }
 
     @TypeConverter
-    fun objectToString(list: List<Tag>): String {
+    fun objectToString(list: List<ArticleTag>): String {
         return Gson().toJson(list)
     }
 }

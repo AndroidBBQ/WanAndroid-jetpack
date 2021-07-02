@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="fab"
+            type="com.bbq.home.viewmodel.FabViewModel" />
+
+    </data>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="@{()-> fab.onClick.invoke()}"
+        android:scaleType="centerInside"
+        android:src="@{fab.mDrawable}" />
+
+</layout>

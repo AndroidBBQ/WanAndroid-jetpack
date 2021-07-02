@@ -2,7 +2,7 @@ package com.sss.plugin
 
 
 object BuildVersion {
-    val applicationId = "com.example.testcomposingbuilds"
+    val applicationId = "com.bbq.wanandroid"
     val compileSdkVersion = 30
     val buildToolsVersion = "30.0.3"
     val minSdkVersion = 21

@@ -61,6 +61,7 @@ dependencies {
     api(AndroidX.room_ktx)
     api(AndroidX.room_runtime)
     api(AndroidX.paging_runtime)
+    api(AndroidX.swiperefreshlayout)
     api(Kotlin.koin_core)
     api(Kotlin.koin_core_ext)
     api(Kotlin.koin_androidx_ext)
@@ -69,6 +70,7 @@ dependencies {
     api(Kotlin.koin_androidx_viewmodel)
     api(Kotlin.koin_androidx_scope)
     api(Deps.BRVAH)
+    api(Deps.xxpermissions)
     api(Deps.aroute)
     api(Deps.materia)
     api(Deps.glide)
@@ -77,9 +79,9 @@ dependencies {
     api(Deps.refresh_layout_kernel)
     api(Deps.refresh_footer_classics)
     api(Deps.refresh_header_classics)
+    api(Deps.refresh_header_material)
     api(Deps.skeleton)
     api(Deps.shimmerlayout)
-    api(Deps.loadsir)
     api(Deps.mmkv)
 
 

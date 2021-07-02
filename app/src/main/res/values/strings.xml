@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">WanAndroid</string>
+
+    <string name="HomeFragment">HomeFragment</string>
+    <string name="FaqFragment">FaqFragment</string>
+    <string name="NavigationFragment">NavigationFragment</string>
+    <string name="SystemFragment">SystemFragment</string>
+    <string name="UserFragment">UserFragment</string>
 </resources>

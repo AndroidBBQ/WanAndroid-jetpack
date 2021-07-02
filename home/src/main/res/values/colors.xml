@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="colorTransparent">#00000000</color>
+    <!--文字颜色-->
+    <color name="text_theme" tools:ignore="MissingDefaultResource">@color/theme</color>
+    <color name="text_333" tools:ignore="MissingDefaultResource">#333</color>
+    <color name="text_666" tools:ignore="MissingDefaultResource">#666</color>
+    <color name="text_999" tools:ignore="MissingDefaultResource">#999</color>
+    <color name="text_ccc" tools:ignore="MissingDefaultResource">#ccc</color>
+    <color name="text_fff" tools:ignore="MissingDefaultResource">@color/white</color>
+    <color name="line" tools:ignore="MissingDefaultResource">#f0f0f0</color>
+    <color name="gray">#F6F6F6</color>
+
+</resources>

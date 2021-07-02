@@ -8,6 +8,8 @@ import com.bbq.base.loadsir.EmptyCallback
 import com.bbq.base.loadsir.ErrorCallback
 import com.bbq.base.loadsir.LoadingCallback
 import com.bbq.base.view.CustomBlackToastStyle
+import com.bbq.wanandroid.BuildConfig
+import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
 import com.kingja.loadsir.core.LoadSir
 import com.tencent.mmkv.MMKV
@@ -29,13 +31,13 @@ class WanApp : BaseApp() {
         }
         val toastStyle = CustomBlackToastStyle()
         ToastUtils.init(this, toastStyle)
+        if (BuildConfig.DEBUG) {
+            ARouter.openLog()
+            ARouter.openDebug()
+        }
         ARouter.init(this)
-        LoadSir.beginBuilder()
-            .addCallback(ErrorCallback())
-            .addCallback(LoadingCallback())
-            .addCallback(EmptyCallback())
-            .setDefaultCallback(LoadingCallback::class.java)
-            .commit()
+        // 当前项目是否已经适配了分区存储的特性
+        XXPermissions.setScopedStorage(true);
     }
 
 }

@@ -14,11 +14,12 @@ class SimpleBannerHelper(
     private var repeatLayoutManager = RepeatLayoutManager(recyclerView.context)
 
     private var smoothScrollDuration = 500
-    private var bannerDelay = 2000L
+    private var bannerDelay = 5000L
     private var offsetX = 0
     private var offsetY = 0
     private var isUp = false
     private var isSettling = false
+
     private val timerTask = Runnable {
         recyclerView.post {
             if (repeatLayoutManager.itemCount > 1) {

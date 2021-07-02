@@ -1,15 +1,24 @@
 package com.bbq.home.ui
 
-import android.util.Log
-import androidx.lifecycle.Observer
+import android.content.Intent
+import android.view.View
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bbq.base.base.BaseVMFragment
 import com.bbq.base.utils.SimpleBannerHelper
+import com.bbq.base.utils.getResColor
 import com.bbq.home.R
+import com.bbq.home.adapter.HomePageAdapter
 import com.bbq.home.adapter.HotKeyAdapter
 import com.bbq.home.databinding.FragmentHomeBinding
 import com.bbq.home.viewmodel.HomeViewModel
+import com.bbq.home.weight.FooterAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -18,10 +27,15 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
 
     private lateinit var bannerHelper: SimpleBannerHelper
 
+
     private val viewModel: HomeViewModel by viewModel()
 
     private val mHotKeyAdapter by lazy {
         HotKeyAdapter(viewModel.mHotKeyList.value)
+    }
+
+    private val mArticleAdapter by lazy {
+        HomePageAdapter()
     }
 
     override fun onResume() {
@@ -42,35 +56,148 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
     override fun initData() {
         super.initData()
         mBinding.vm = viewModel
+        viewModel.dialogState(this)
         initTopSearch()
         initRecycler()
+        initSwipeRefresh()
+        viewModel.getHotKeys()
+        viewModel.getBannerList()
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.getArticles().collectLatest {
+                withContext(Dispatchers.Main) {
+                    mArticleAdapter.submitData(it)
+                }
+            }
+        }
+    }
+
+    private fun initSwipeRefresh() {
+        mBinding.swipeRefresh.setColorSchemeColors(R.color.color_0099ff.getResColor())
     }
 
     private fun initRecycler() {
-
+        mBinding.recyclerArticle.layoutManager = LinearLayoutManager(context)
+        mBinding.recyclerArticle.adapter = mArticleAdapter
+        mArticleAdapter.withLoadStateFooter(FooterAdapter(mArticleAdapter))
     }
 
 
     private fun initTopSearch() {
-        bannerHelper =
-            SimpleBannerHelper(mBinding.recyclerHotKey, RecyclerView.VERTICAL)
-        mBinding.viewBg.setOnClickListener {
+        mBinding.topSear.viewBg.setOnClickListener {
             goSearch()
         }
-        mBinding.ivAdd.setOnClickListener {
+        mBinding.topSear.ivAdd.setOnClickListener {
             goAdd()
         }
-        mBinding.recyclerHotKey.layoutManager = LinearLayoutManager(context)
-        mBinding.recyclerHotKey.adapter = mHotKeyAdapter
-        viewModel.getHotKeys()
+        mBinding.topSear.recyclerHotKey.layoutManager = LinearLayoutManager(context)
+        mBinding.topSear.recyclerHotKey.adapter = mHotKeyAdapter
+        //这段代码得放到 layoutManager 设置了之后，要不然没有效果
+        bannerHelper =
+            SimpleBannerHelper(mBinding.topSear.recyclerHotKey, RecyclerView.VERTICAL)
+        mHotKeyAdapter.setOnItemClickListener { adapter, view, position ->
+            goSearch()
+        }
     }
 
     override fun startObserver() {
         super.startObserver()
-        viewModel.mHotKeyList.observe(this, Observer {
+        viewModel.mHotKeyList.observe(this, {
             mHotKeyAdapter.setNewInstance(it)
             bannerHelper.startTimerTask()
         })
+        viewModel.mBannerList.observe(this, {
+            mArticleAdapter.setBannerList(it)
+        })
+        mBinding.swipeRefresh.setOnRefreshListener {
+            mArticleAdapter.refresh()
+        }
+
+        //因为刷新前也会调用LoadState.NotLoading，所以用一个外部变量判断是否是刷新后
+        var hasRefreshing = false
+        mArticleAdapter.addLoadStateListener {
+            //判断是刷新状态
+            when (it.refresh) {
+//                加载中 (加载数据时候回调)
+                is LoadState.Loading -> {
+                    hasRefreshing = true
+                    //如果是手动下拉刷新，则不展示loading页
+                    if (!mBinding.swipeRefresh.isRefreshing) {
+                        showLoading()
+                    }
+                }
+//             没有加载中 (加载数据前和加载数据完成后回调)
+                is LoadState.NotLoading -> {
+                    if (hasRefreshing) {
+                        hasRefreshing = false
+                        if (mBinding.swipeRefresh.isRefreshing) {
+                            mBinding.swipeRefresh.isRefreshing = false
+                        } else {
+                            dismissLoading()
+                        }
+                        //如果第一页数据就没有更多了，第一页不会触发append
+                        if (it.source.append.endOfPaginationReached) {
+                            //第一页就没有数据了，处理  retry
+                        }
+                    }
+                }
+//                加载失败 （加载数据失败回调）
+                is LoadState.Error -> {
+
+                }
+            }
+        }
+
+        //因为刷新前也会调用LoadState.NotLoading，所以用一个外部变量判断是否是加载更多后
+        var hasLoadingMore = false
+        mArticleAdapter.addLoadStateListener {
+            when (it.append) {
+                is LoadState.Loading -> {
+                    hasLoadingMore = true
+                }
+                is LoadState.NotLoading -> {
+                    if (hasLoadingMore) {
+                        hasLoadingMore = false
+                        if (it.source.append.endOfPaginationReached) {
+                            //没有更多了(只能用source的append)
+                        } else {
+                        }
+                    }
+                }
+                is LoadState.Error -> {
+                }
+            }
+        }
+
+
+        mBinding.recyclerArticle.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val layoutManager = recyclerView.layoutManager
+                //判断是当前layoutManager是否为LinearLayoutManager
+                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+                if (layoutManager is LinearLayoutManager) {
+                    val linearManager = layoutManager
+                    //获取最后一个可见view的位置
+                    val lastItemPosition = linearManager.findLastVisibleItemPosition()
+                    if (lastItemPosition >= 20) {
+                        viewModel.mFabVisible.set(true)
+                    } else {
+                        viewModel.mFabVisible.set(false)
+                    }
+                }
+            }
+        })
+
+        viewModel.mFabClick.observe(this, {
+            if (it) {
+                mBinding.recyclerArticle.smoothScrollToPosition(0)
+            }
+        })
+
     }
 
     /**
@@ -84,9 +211,13 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
      * 跳转到搜索页面
      */
     private fun goSearch() {
-        Log.e(TAG, "goSearch: ${bannerHelper.findLastVisibleItemPosition()}")
         //当前展示的标题
-//        val title = mHotKeyAdapter.getItem(bannerHelper.findLastVisibleItemPosition()).name
-//        toast(title)
+        val title = mHotKeyAdapter.getItem(bannerHelper.findLastVisibleItemPosition()).name
+        val intent = Intent(requireContext(), SearchActivity::class.java)
+        intent.putExtra("search_key", title)
+        startActivity(intent)
+    }
+
+    override fun initView(view: View) {
     }
 }

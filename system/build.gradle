@@ -46,4 +46,6 @@ android {
 dependencies {
     implementation project(":base")
     kapt Deps.aroute_processor
+    kapt Deps.glideCompiler
+
 }
