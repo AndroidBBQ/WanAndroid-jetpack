@@ -2,19 +2,27 @@ package com.bbq.home.ui
 
 import android.content.Intent
 import android.view.View
+import android.widget.AdapterView
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bbq.base.base.BaseVMFragment
+import com.bbq.base.route.LoginServiceUtils
+import com.bbq.base.route.WebService
 import com.bbq.base.utils.SimpleBannerHelper
 import com.bbq.base.utils.getResColor
 import com.bbq.home.R
 import com.bbq.home.adapter.HomePageAdapter
 import com.bbq.home.adapter.HotKeyAdapter
+import com.bbq.home.bean.ArticleBean
 import com.bbq.home.databinding.FragmentHomeBinding
 import com.bbq.home.viewmodel.HomeViewModel
+import com.bbq.home.viewmodel.ItemHomeArticle
 import com.bbq.home.weight.FooterAdapter
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,7 +43,7 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
     }
 
     private val mArticleAdapter by lazy {
-        HomePageAdapter()
+        HomePageAdapter(requireContext())
     }
 
     override fun onResume() {
@@ -69,6 +77,43 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
                 }
             }
         }
+        initListener()
+    }
+
+    private fun initListener() {
+        mArticleAdapter.setOnCollectListener(object : HomePageAdapter.OnCollectListener {
+            override fun collect(articleBean: ItemHomeArticle, position: Int) {
+                if (!LoginServiceUtils.isLogin()) {
+                    //如果没有登录，先登录
+                    LoginServiceUtils.start(requireContext())
+                    return
+                }
+                if (articleBean.mCollect.get()) {
+                    //取消收藏
+                    lifecycleScope.launchWhenCreated {
+                        val result = viewModel.unCollect(articleBean.mId)
+                        if (result) {
+                            articleBean.mCollect.set(false)
+                            toast("取消收藏成功！")
+                        } else {
+                            toast("取消收藏失败!")
+                        }
+                    }
+                } else {
+                    //收藏
+                    lifecycleScope.launchWhenCreated {
+                        val result = viewModel.collect(articleBean.mId)
+                        if (result) {
+                            articleBean.mCollect.set(true)
+                            toast("收藏成功！")
+                        } else {
+                            toast("收藏失败!")
+
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun initSwipeRefresh() {

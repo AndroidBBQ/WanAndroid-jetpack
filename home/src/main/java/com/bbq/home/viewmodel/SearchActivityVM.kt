@@ -2,7 +2,6 @@ package com.bbq.home.viewmodel
 
 import android.app.Application
 import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.bbq.base.base.BaseViewModel
@@ -44,21 +43,22 @@ class SearchActivityVM(application: Application, val repo: HomeRepo) : BaseViewM
             if (articleResult is ResultState.Success) {
                 mLoadError.postValue(false)
                 if (page == 0) {
-                    if (articleResult.data.datas.isNullOrEmpty()) {
+                    if (articleResult.data?.datas.isNullOrEmpty()) {
                         //首页没有数据
                         mArticleList.postValue(mutableListOf())
                     } else {
-                        mArticleList.postValue(articleResult.data.datas!!)
+                        mArticleList.postValue(articleResult.data?.datas!!)
                     }
                 } else {
-                    mArticleList.value?.addAll(articleResult.data.datas)
+                    mArticleList.value?.addAll(articleResult.data!!.datas)
                     mArticleList.postValue(mArticleList.value)
                 }
                 //判断page总数
-                mMaxPage.postValue(articleResult.data.pageCount)
+                mMaxPage.postValue(articleResult.data?.pageCount)
             } else if (articleResult is ResultState.Error) {
                 mLoadError.postValue(true)
             }
+
         }
     }
 
@@ -70,7 +70,7 @@ class SearchActivityVM(application: Application, val repo: HomeRepo) : BaseViewM
             viewModelScope.launch(Dispatchers.IO) {
                 val hotResult = repo.getHotKey()
                 if (hotResult is ResultState.Success) {
-                    mHotKeyList.postValue(hotResult.data)
+                    mHotKeyList.postValue(hotResult.data!!)
                     SpUtils.put("hot_keys", Gson().toJson(hotResult.data))
                 } else if (hotResult is ResultState.Error) {
                     mHotKeyList.postValue(mutableListOf())
@@ -84,6 +84,15 @@ class SearchActivityVM(application: Application, val repo: HomeRepo) : BaseViewM
             mHotKeyList.postValue(keyList)
         }
 
+    }
+
+
+    suspend fun collect(id: Int?): Boolean {
+        return repo.collect(id)
+    }
+
+    suspend fun unCollect(id: Int?): Boolean {
+        return repo.unCollect(id)
     }
 
 }

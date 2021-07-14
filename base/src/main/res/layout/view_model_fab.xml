@@ -6,7 +6,7 @@
 
         <variable
             name="fab"
-            type="com.bbq.home.viewmodel.FabViewModel" />
+            type="com.bbq.base.view.FabViewModel" />
 
     </data>
 

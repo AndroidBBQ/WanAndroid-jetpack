@@ -17,7 +17,7 @@ class HomePageDataResource(val repo: HomeRepo, val database: HomeDatabase) :
         when (val response = repo.getArticleList(currentPage)) {
             is ResultState.Success -> {
                 //当前页码 小于 总页码 页面加1
-                var nextPage = if (currentPage < response.data.pageCount) {
+                var nextPage = if (currentPage < response.data!!.pageCount) {
                     currentPage + 1
                 } else {
                     //没有更多数据
@@ -25,12 +25,12 @@ class HomePageDataResource(val repo: HomeRepo, val database: HomeDatabase) :
                 }
                 //将数据保存到数据库中
                 database.articleDao().clearArticleByPage(currentPage)
-                database.articleDao().insertArticle(response.data.datas)
+                database.articleDao().insertArticle(response.data!!.datas)
 //                data ：返回的数据列表
 //                prevKey ：上一页的key （传 null 表示没有上一页）
 //                nextKey ：下一页的key （传 null 表示没有下一页）
                 return LoadResult.Page(
-                    data = response.data.datas,
+                    data = response.data!!.datas,
                     prevKey = null,
                     nextKey = nextPage
                 )
@@ -68,6 +68,6 @@ class HomePageDataResource(val repo: HomeRepo, val database: HomeDatabase) :
     }
 
     override fun getRefreshKey(state: PagingState<Int, ArticleBean>): Int? {
-        return state.anchorPosition
+        return 0
     }
 }

@@ -45,5 +45,6 @@ android {
 
 dependencies {
     implementation project(":base")
+    implementation Deps.agentweb
     kapt Deps.aroute_processor
 }

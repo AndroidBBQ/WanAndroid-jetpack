@@ -3,13 +3,13 @@ package com.bbq.home.viewmodel
 import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.bbq.base.base.BaseViewModel
+import com.bbq.base.view.FabViewModel
 import com.bbq.home.bean.ArticleBean
 import com.bbq.home.bean.BannerBean
 import com.bbq.home.bean.HotKeyBean
@@ -29,7 +29,7 @@ class HomeViewModel(app: Application, val repo: HomeRepo, val database: HomeData
         viewModelScope.launch(Dispatchers.IO) {
             val hotResult = repo.getHotKey()
             if (hotResult is ResultState.Success) {
-                mHotKeyList.postValue(hotResult.data)
+                mHotKeyList.postValue(hotResult.data!!)
             } else if (hotResult is ResultState.Error) {
                 toast(hotResult.exception.msg)
             }
@@ -41,7 +41,7 @@ class HomeViewModel(app: Application, val repo: HomeRepo, val database: HomeData
         viewModelScope.launch(Dispatchers.IO) {
             val bannerResult = repo.getBanners()
             if (bannerResult is ResultState.Success) {
-                mBannerList.postValue(bannerResult.data)
+                mBannerList.postValue(bannerResult.data!!)
             } else if (bannerResult is ResultState.Error) {
                 toast(bannerResult.exception.msg)
             }
@@ -75,4 +75,13 @@ class HomeViewModel(app: Application, val repo: HomeRepo, val database: HomeData
         }
     )
     var mFabVisible = ObservableField(false)
+
+
+    suspend fun collect(id: Int?): Boolean {
+        return repo.collect(id)
+    }
+
+    suspend fun unCollect(id: Int?): Boolean {
+        return repo.unCollect(id)
+    }
 }

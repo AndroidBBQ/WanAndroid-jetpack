@@ -23,7 +23,7 @@ class MainActivity : BaseVMActivity<ActivityMainBinding>() {
         return R.layout.activity_main
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             setupBottomNavigationBar()
         }

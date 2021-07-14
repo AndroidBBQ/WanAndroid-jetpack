@@ -8,7 +8,7 @@ import com.bbq.net.exception.ResultException
 sealed class ResultState<out T : Any> {
 
     //成功
-    data class Success<out T : Any>(val data: T) : ResultState<T>()
+    data class Success<out T : Any>(val data: T?) : ResultState<T>()
 
     //失败
     data class Error(val exception: ResultException) : ResultState<Nothing>()

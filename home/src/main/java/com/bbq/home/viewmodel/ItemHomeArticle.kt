@@ -2,9 +2,13 @@ package com.bbq.home.viewmodel
 
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import com.bbq.base.utils.truely
 import com.bbq.home.bean.ArticleBean
 import com.bbq.home.bean.ArticleTag
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ItemHomeArticle(val bean: ArticleBean) {
 
@@ -15,21 +19,17 @@ class ItemHomeArticle(val bean: ArticleBean) {
     var mLink: String? = ""
     var mId: Int? = null
     var mCollect = ObservableBoolean()
+        set(value) {
+            bean.collect = value.get()
+            field = value
+        }
     var mCollectIconShow = ObservableBoolean(true)
 
     var mTagVM1 = ObservableField<TagViewModel>()
     var mTagVM2 = ObservableField<TagViewModel>()
     var mTagVM3 = ObservableField<TagViewModel>()
     var mTagVM4 = ObservableField<TagViewModel>()
-    var onCollectClick = {}
-    var onDelClick = {}
 
-    /**
-     * item的点击事件
-     */
-    fun onItemClick() {
-
-    }
 
     fun bindData() {
         setTitle(bean)
@@ -39,7 +39,7 @@ class ItemHomeArticle(val bean: ArticleBean) {
         setTags(bean)
         mId = bean.id
         mLink = bean.link
-        mCollect.set(bean.collect ?: false)
+        mCollect.set(bean.collect)
     }
 
     private fun addNewTags(bean: ArticleBean?) {

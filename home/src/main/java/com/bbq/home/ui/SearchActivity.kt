@@ -5,9 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.AdapterView
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.bbq.base.base.BaseVMActivity
+import com.bbq.base.route.LoginServiceUtils
+import com.bbq.base.route.WebService
 import com.bbq.base.utils.KeyBoardUtils
 import com.bbq.base.utils.SpUtils
 import com.bbq.home.R
@@ -15,6 +20,8 @@ import com.bbq.home.adapter.HistoryAdapter
 import com.bbq.home.adapter.HomeArticleAdapter
 import com.bbq.home.databinding.ActivitySearchBinding
 import com.bbq.home.viewmodel.SearchActivityVM
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -31,7 +38,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
         HomeArticleAdapter(viewModel.mArticleList.value)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initView(savedInstanceState: Bundle?) {
         mBinding.topSear.search.setText(intent.getStringExtra("search_key") ?: "")
         mBinding.vm = viewModel
         initfab()
@@ -43,6 +50,47 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
     private fun initSearch() {
         mBinding.recyclerSearchResult.layoutManager = LinearLayoutManager(baseContext)
         mBinding.recyclerSearchResult.adapter = mArticleAdapter
+        mArticleAdapter.setOnItemClickListener { adapter, view, position ->
+            val bean = mArticleAdapter.getItem(position)
+            ARouter.getInstance().navigation(WebService::class.java)
+                .goWeb(this, bean.title, bean.link!!,bean.id,bean.collect)
+        }
+        mArticleAdapter.setOnItemChildClickListener { adapter, view, position ->
+            if (view.id == R.id.tvCollect) {
+                if (!LoginServiceUtils.isLogin()) {
+                    //如果没有登录，先登录
+                    LoginServiceUtils.start(this)
+                    return@setOnItemChildClickListener
+                }
+                val bean = mArticleAdapter.getItem(position)
+                if (bean.collect) {
+                    //取消收藏
+                    lifecycleScope.launchWhenCreated {
+                        val result = viewModel.unCollect(bean.id)
+                        if (result) {
+                            bean.collect=false
+                            mArticleAdapter.notifyItemChanged(position)
+                            toast("取消收藏成功！")
+                        } else {
+                            toast("取消收藏失败!")
+                        }
+                    }
+                } else {
+                    //收藏
+                    lifecycleScope.launchWhenCreated {
+                        val result = viewModel.collect(bean.id)
+                        if (result) {
+                            bean.collect=true
+                            mArticleAdapter.notifyItemChanged(position)
+                            toast("收藏成功！")
+                        } else {
+                            toast("收藏失败!")
+
+                        }
+                    }
+                }
+            }
+        }
 
         mBinding.smartRefresh.setOnRefreshListener {
             mPage = 0
@@ -56,6 +104,8 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
         }
         mArticleAdapter.loadMoreModule.isAutoLoadMore = true
         mArticleAdapter.loadMoreModule.isEnableLoadMoreIfNotFullPage = false
+
+
     }
 
     private fun initfab() {

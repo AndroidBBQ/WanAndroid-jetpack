@@ -9,7 +9,7 @@ import com.bbq.home.db.ArticleDao
 
 @Database(
     entities = [ArticleBean::class],
-    version = 1,
+    version = 3,
     exportSchema = false
 )
 abstract class HomeDatabase : RoomDatabase() {
@@ -28,6 +28,7 @@ abstract class HomeDatabase : RoomDatabase() {
                 DB_NAME
             )
                 .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
                 .build()
                 .also {
                     instance = it

@@ -1,11 +1,11 @@
-package com.bbq.home.viewmodel
+package com.bbq.base.view
 
 import android.graphics.drawable.Drawable
 import androidx.databinding.ObservableField
+import com.bbq.base.R
 import com.bbq.base.utils.getDrawable
 import com.bbq.base.utils.getResColor
 import com.bbq.base.utils.getResDimen
-import com.bbq.home.R
 
 class FabViewModel(
     var size: Int = R.dimen.dp_50.getResDimen().toInt(),

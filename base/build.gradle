@@ -81,6 +81,7 @@ dependencies {
     api(Deps.refresh_header_classics)
     api(Deps.refresh_header_material)
     api(Deps.skeleton)
+    api(Deps.loadsir)
     api(Deps.shimmerlayout)
     api(Deps.mmkv)
 

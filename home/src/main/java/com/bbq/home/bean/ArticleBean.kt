@@ -16,7 +16,7 @@ data class ArticleBean(
     val canEdit: Boolean,
     val chapterId: Int,
     val chapterName: String,
-    val collect: Boolean?,
+    var collect: Boolean,
     val courseId: Int,
     val desc: String,
     val descMd: String,
@@ -24,7 +24,7 @@ data class ArticleBean(
     val fresh: Boolean,
     val host: String,
     @PrimaryKey
-    val id: Int?,
+    val id: Int,
     val link: String?,
     val niceDate: String,
     val niceShareDate: String,

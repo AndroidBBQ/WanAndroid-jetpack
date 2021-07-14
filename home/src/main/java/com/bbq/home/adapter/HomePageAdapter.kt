@@ -1,5 +1,6 @@
 package com.bbq.home.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,17 +8,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.alibaba.android.arouter.launcher.ARouter
+import com.bbq.base.route.WebService
 import com.bbq.home.R
 import com.bbq.home.bean.ArticleBean
 import com.bbq.home.bean.BannerBean
 import com.bbq.home.databinding.ItemHomeBinding
 import com.bbq.home.viewmodel.ItemHomeArticle
+import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.youth.banner.Banner
 import com.youth.banner.adapter.BannerImageAdapter
 import com.youth.banner.indicator.CircleIndicator
 import com.youth.banner.transformer.DepthPageTransformer
 
-class HomePageAdapter :
+class HomePageAdapter(val context: Context) :
     PagingDataAdapter<ArticleBean, RecyclerView.ViewHolder>(differCallback) {
 
     private val mBannerAdapter by lazy {
@@ -64,7 +68,8 @@ class HomePageAdapter :
             }
             //banner点击事件
             banner.setOnBannerListener { data, position ->
-
+                ARouter.getInstance().navigation(WebService::class.java)
+                    .goWeb(context = context, data.title, data.url, -1, false)
             }
         }
     }
@@ -73,9 +78,23 @@ class HomePageAdapter :
         if (holder.itemViewType == TYPE_BANNER) {
         } else {
             val holder = holder as HomeViewHolder
-            val article = ItemHomeArticle(getItem(position-1)!!)
+            val article = ItemHomeArticle(getItem(position - 1)!!)
             article.bindData()
             holder.dataBinding?.item = article
+            holder.itemView.setOnClickListener {
+                ARouter.getInstance().navigation(WebService::class.java)
+                    .goWeb(
+                        context, getItem(position - 1)!!.title,
+                        getItem(position - 1)!!.link!!,
+                        getItem(position - 1)!!.id,
+                        getItem(position - 1)!!.collect
+                    )
+            }
+            holder.dataBinding.tvCollect.setOnClickListener {
+                if (collectListener != null) {
+                    collectListener!!.collect(article, position)
+                }
+            }
         }
     }
 
@@ -100,4 +119,14 @@ class HomePageAdapter :
     fun setBannerList(bannerList: List<BannerBean>) {
         mBannerAdapter.setDatas(bannerList)
     }
+
+    private var collectListener: OnCollectListener? = null
+    fun setOnCollectListener(listener: OnCollectListener) {
+        this.collectListener = listener
+    }
+
+    interface OnCollectListener {
+        fun collect(articleBean: ItemHomeArticle, position: Int)
+    }
+
 }

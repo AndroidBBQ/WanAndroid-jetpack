@@ -19,7 +19,8 @@ abstract class BaseVMActivity<T : ViewDataBinding> : BaseActivity() {
         super.onCreate(savedInstanceState)
         mBinding = DataBindingUtil.setContentView(this, getLayoutId())
         mBinding.lifecycleOwner = this
-        initData(savedInstanceState)
+        initView(savedInstanceState)
+        initData()
         startObserver()
     }
 
@@ -27,7 +28,9 @@ abstract class BaseVMActivity<T : ViewDataBinding> : BaseActivity() {
 
     }
 
-    abstract fun initData(savedInstanceState: Bundle?);
+    open fun initData() {}
+
+    abstract fun initView(savedInstanceState: Bundle?);
 
 
     override fun onDestroy() {

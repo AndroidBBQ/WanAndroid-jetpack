@@ -29,7 +29,7 @@ object Deps {
     //smart_refresh_layout
     val refresh_layout_kernel = "com.scwang.smart:refresh-layout-kernel:2.0.3"      //核心必须依赖
     val refresh_header_classics = "com.scwang.smart:refresh-header-classics:2.0.3"    //经典刷新头
-    val refresh_header_material="com.scwang.smart:refresh-header-material:2.0.3"
+    val refresh_header_material = "com.scwang.smart:refresh-header-material:2.0.3"
     val refresh_footer_classics = "com.scwang.smart:refresh-footer-classics:2.0.3"    //经典加载
 
     //glide
@@ -52,8 +52,12 @@ object Deps {
     val toastutils = "com.github.getActivity:ToastUtils:9.0"
     val aroute = "com.alibaba:arouter-api:1.5.1"
     val aroute_processor = "com.alibaba:arouter-compiler:1.5.1"
-    val agentweb = "com.just.agentweb:agentweb-androidx:4.1.3"
+    val agentweb = "com.github.Justson.AgentWeb:agentweb-core:v4.1.9-androidx"
     val leakcanary = "com.squareup.leakcanary:leakcanary-android:2.6"
+
+    //腾讯x5浏览器
+    val tbssdk = "com.tencent.tbs.tbssdk:sdk:43939"
+    val webkit = "androidx.webkit:webkit:1.2.0"
 
     //骨架 https://github.com/ethanhua/Skeleton
     val skeleton = "com.ethanhua:skeleton:1.1.2"
@@ -64,5 +68,5 @@ object Deps {
 
 
     val banner = "io.github.youth5201314:banner:2.2.2"
-    val flexbox="com.google.android.flexbox:flexbox:3.0.0"
+    val flexbox = "com.google.android.flexbox:flexbox:3.0.0"
 }
