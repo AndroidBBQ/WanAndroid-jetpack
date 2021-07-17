@@ -12,8 +12,8 @@ data class User(
     val username: String,
     val icon: String = "",
     val email: String = "",
-    val password: String
-) : Parcelable, BaseObservable() {
+    val password: String=""
+) : Parcelable{
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()!!,

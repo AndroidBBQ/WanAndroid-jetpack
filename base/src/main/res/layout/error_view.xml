@@ -9,9 +9,10 @@
         android:src="@drawable/ic_network_error" />
 
     <TextView
+        android:id="@+id/tv_error_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="网络错误，点击重试~"
+        android:text="@string/base_net_error_click"
         android:textColor="#48495F" />
 </LinearLayout>

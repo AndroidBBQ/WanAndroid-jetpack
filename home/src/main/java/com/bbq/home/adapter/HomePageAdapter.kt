@@ -115,6 +115,14 @@ class HomePageAdapter(val context: Context) :
         }
     }
 
+    override fun getItemCount(): Int {
+        return super.getItemCount()
+    }
+
+    fun getItemData(position: Int): ArticleBean? {
+        return getItem(position)
+    }
+
 
     fun setBannerList(bannerList: List<BannerBean>) {
         mBannerAdapter.setDatas(bannerList)

@@ -13,13 +13,10 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/buildSrc" />
-            <option value="$PROJECT_DIR$/faq" />
             <option value="$PROJECT_DIR$/home" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/navigation" />
             <option value="$PROJECT_DIR$/net" />
-            <option value="$PROJECT_DIR$/project" />
-            <option value="$PROJECT_DIR$/system" />
             <option value="$PROJECT_DIR$/user" />
             <option value="$PROJECT_DIR$/webview" />
           </set>

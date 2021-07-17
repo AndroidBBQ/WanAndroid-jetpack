@@ -1,8 +1,9 @@
 package com.bbq.home.di
 
 import com.bbq.home.api.HomeApi
-import com.bbq.home.repo.HomeDatabase
+import com.bbq.home.db.HomeDatabase
 import com.bbq.home.repo.HomeRepo
+import com.bbq.home.viewmodel.FaqVM
 import com.bbq.home.viewmodel.HomeViewModel
 import com.bbq.home.viewmodel.SearchActivityVM
 import com.bbq.net.net.RetrofitManager
@@ -27,5 +28,8 @@ val homeModels = module {
     }
     viewModel {
         SearchActivityVM(androidApplication(), get())
+    }
+    viewModel {
+        FaqVM(androidApplication(), get())
     }
 }

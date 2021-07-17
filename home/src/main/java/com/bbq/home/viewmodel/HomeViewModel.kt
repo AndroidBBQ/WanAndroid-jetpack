@@ -13,7 +13,7 @@ import com.bbq.base.view.FabViewModel
 import com.bbq.home.bean.ArticleBean
 import com.bbq.home.bean.BannerBean
 import com.bbq.home.bean.HotKeyBean
-import com.bbq.home.repo.HomeDatabase
+import com.bbq.home.db.HomeDatabase
 import com.bbq.home.repo.HomePageDataResource
 import com.bbq.home.repo.HomeRepo
 import com.bbq.net.model.ResultState

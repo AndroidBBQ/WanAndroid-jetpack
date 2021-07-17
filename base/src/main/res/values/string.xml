@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="base_no_data">暂无数据</string>
+    <string name="base_no_data_click">暂无数据，点击重试~</string>
+    <string name="base_net_error">暂无数据</string>
+    <string name="base_net_error_click">暂无数据</string>
+</resources>

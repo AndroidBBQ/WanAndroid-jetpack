@@ -8,10 +8,9 @@ import androidx.navigation.NavigatorProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.bbq.base.base.BaseVMActivity
 import com.bbq.base.utils.FixFragmentNavigator
-import com.bbq.faq.ui.FaqFragment
+import com.bbq.home.ui.FaqFragment
 import com.bbq.home.ui.HomeFragment
 import com.bbq.navigation.ui.NavigationFragment
-import com.bbq.system.ui.SystemFragment
 import com.bbq.user.ui.UserFragment
 import com.bbq.wanandroid.databinding.ActivityMainBinding
 
@@ -85,11 +84,6 @@ class MainActivity : BaseVMActivity<ActivityMainBinding>() {
         destination3.label = resources.getString(R.string.NavigationFragment)
         navGraph.addDestination(destination3)
 
-        val destination4 = fragmentNavigator.createDestination()
-        destination4.id = R.id.navigation_tree
-        destination4.className = SystemFragment::class.java.canonicalName
-        destination4.label = resources.getString(R.string.SystemFragment)
-        navGraph.addDestination(destination4)
 
         val destination5 = fragmentNavigator.createDestination()
         destination5.id = R.id.navigation_mine

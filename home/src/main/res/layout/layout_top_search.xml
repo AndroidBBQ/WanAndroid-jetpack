@@ -55,7 +55,7 @@
             android:layout_marginRight="@dimen/dp_20"
             android:background="@drawable/ic_add"
             android:padding="15dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/view_bg"
             app:layout_constraintLeft_toRightOf="@id/view_bg"
             app:layout_constraintRight_toRightOf="parent"
@@ -63,7 +63,6 @@
 
         <TextView
             android:id="@+id/tv_cancel"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -71,6 +70,7 @@
             android:layout_marginRight="@dimen/dp_20"
             android:text="取消"
             android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/view_bg"
             app:layout_constraintLeft_toRightOf="@id/view_bg"
             app:layout_constraintRight_toRightOf="parent"

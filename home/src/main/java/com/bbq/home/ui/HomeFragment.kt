@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbq.base.base.BaseVMFragment
+import com.bbq.base.bean.EventCollectBean
 import com.bbq.base.route.LoginServiceUtils
 import com.bbq.base.route.WebService
+import com.bbq.base.utils.LiveDataBus
 import com.bbq.base.utils.SimpleBannerHelper
 import com.bbq.base.utils.getResColor
 import com.bbq.home.R
@@ -114,6 +116,17 @@ class HomeFragment : BaseVMFragment<FragmentHomeBinding>() {
                 }
             }
         })
+        LiveDataBus.with<EventCollectBean>("EventCollectBean")
+            .observe(this, {
+                if (mArticleAdapter.itemCount <= 1) return@observe
+                for (index in 1 until mArticleAdapter.itemCount) {
+                    val bean = mArticleAdapter.getItemData(index)
+                    if (bean?.id == it.articleId) {
+                        bean.collect = it.isCollect
+                        mArticleAdapter.notifyItemChanged(index + 1)
+                    }
+                }
+            })
     }
 
     private fun initSwipeRefresh() {

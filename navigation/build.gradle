@@ -45,5 +45,6 @@ android {
 
 dependencies {
     implementation project(":base")
+    implementation Deps.flexbox
     kapt Deps.aroute_processor
 }

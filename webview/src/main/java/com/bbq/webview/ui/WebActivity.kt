@@ -1,20 +1,26 @@
 package com.bbq.webview.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
-import android.webkit.WebResourceRequest
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.LinearLayout
 import androidx.lifecycle.lifecycleScope
 import com.bbq.base.base.BaseVMActivity
+import com.bbq.base.bean.EventCollectBean
 import com.bbq.base.route.LoginServiceUtils
+import com.bbq.base.utils.LiveDataBus
+import com.bbq.base.utils.StatusBarUtil
+import com.bbq.base.utils.getResColor
 import com.bbq.webview.R
 import com.bbq.webview.databinding.ActivityWebBinding
 import com.bbq.webview.viewmodel.WebViewModel
 import com.just.agentweb.AgentWeb
-import com.just.agentweb.WebViewClient
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -27,6 +33,7 @@ class WebActivity : BaseVMActivity<ActivityWebBinding>() {
     private lateinit var mAgentWeb: AgentWeb
 
     override fun initView(savedInstanceState: Bundle?) {
+        StatusBarUtil.setColor(this, R.color.theme.getResColor())
         mBinding.vm = viewModel
         mTitle = intent.getStringExtra(key_title) ?: ""
         mUrl = intent.getStringExtra(key_url) ?: ""
@@ -47,6 +54,9 @@ class WebActivity : BaseVMActivity<ActivityWebBinding>() {
                             val result = viewModel.unCollect(mId)
                             if (result) {
                                 viewModel.setCollectState(false)
+                                val message = EventCollectBean(mId, false)
+                                LiveDataBus.with<EventCollectBean>("EventCollectBean")
+                                    .postValue(message)
                                 toast("取消收藏成功！")
                             } else {
                                 toast("取消收藏失败!")
@@ -58,6 +68,9 @@ class WebActivity : BaseVMActivity<ActivityWebBinding>() {
                             val result = viewModel.collect(mId)
                             if (result) {
                                 viewModel.setCollectState(true)
+                                val message = EventCollectBean(mId, true)
+                                LiveDataBus.with<EventCollectBean>("EventCollectBean")
+                                    .postValue(message)
                                 toast("收藏成功！")
                             } else {
                                 toast("收藏失败!")
@@ -70,39 +83,21 @@ class WebActivity : BaseVMActivity<ActivityWebBinding>() {
         webViewSetting()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun webViewSetting() {
         mAgentWeb = AgentWeb.with(this)
             .setAgentWebParent(
                 (mBinding.webContainer as LinearLayout?)!!,
-                LinearLayout.LayoutParams(-1, -1)
+                ViewGroup.LayoutParams(-1, -1)
             )
             .useDefaultIndicator()
-            .setWebViewClient(mWebViewClient)
             .createAgentWeb()
             .ready()
             .go(mUrl)
-    }
 
-    private val mWebViewClient: WebViewClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(
-            view: WebView?,
-            request: WebResourceRequest?
-        ): Boolean {
-            val url = request?.url ?: return false
-            try {
-                if (url.toString().startsWith("weixin://") || url.toString()
-                        .startsWith("jianshu://")
-                ) {
-                    val intent = Intent(Intent.ACTION_VIEW, url)
-                    startActivity(intent)
-                    return true
-                }
-            } catch (e: Exception) {
-                return true
-            }
-            view?.loadUrl(url.toString())
-            return true
-//            return super.shouldOverrideUrlLoading(view, request)
+        mAgentWeb.webCreator.webView.setOnTouchListener { v, event ->
+            (v as WebView).requestDisallowInterceptTouchEvent(true)
+            false
         }
     }
 

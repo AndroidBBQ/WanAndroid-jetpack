@@ -22,3 +22,7 @@ interface LoginService : IProvider {
     fun getLiveData(): LiveData<User>
 
 }
+
+interface CollectionService : IProvider {
+    fun launch(context: Context)
+}

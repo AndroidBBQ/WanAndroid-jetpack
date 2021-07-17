@@ -17,7 +17,7 @@ class TitleViewModel(
     var rightText: String = "",
     var rightDrawable: Drawable? = null,
     var rightAction: (() -> Unit)? = null,
-    var background: Int = R.color.colorAccent.getResColor()
+    var background: Int = R.color.theme.getResColor()
 ) {
     val mTitle = ObservableField(title)
     val mRightDrawable = ObservableField(rightDrawable)

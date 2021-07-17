@@ -51,17 +51,10 @@ dependencies {
     implementation project(":base")
     implementation project(":home")
     implementation project(":net")
-    implementation project(":project")
     implementation project(":webview")
-    implementation project(":faq")
     implementation project(":navigation")
-    implementation project(":system")
     implementation project(":user")
     implementation project(":login")
     implementation AndroidX.multidex
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     kapt Deps.aroute_processor
 }

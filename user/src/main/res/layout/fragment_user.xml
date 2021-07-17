@@ -2,19 +2,119 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <data>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="系统"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <variable
+            name="item"
+            type="com.bbq.user.viewmodel.UserItem" />
+
+        <import type="android.view.View" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhiteLight">
+
+        <ImageView
+            android:id="@+id/view_top_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_200"
+            android:background="@color/theme"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.bbq.base.view.CircleImageView
+            android:id="@+id/cir_user_img"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginLeft="@dimen/dp_40"
+            android:background="@drawable/ic_user_un_authen"
+            app:layout_constraintBottom_toBottomOf="@id/view_top_bg"
+            app:layout_constraintLeft_toLeftOf="@id/view_top_bg"
+            app:layout_constraintTop_toTopOf="@id/view_top_bg" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:layout_marginTop="@dimen/dp_10"
+            android:text="@{item.mUserName}"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintLeft_toRightOf="@id/cir_user_img"
+            app:layout_constraintTop_toTopOf="@id/cir_user_img"
+            tools:text="去登录" />
+
+        <TextView
+            android:id="@+id/tv_user_integral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textColor="@color/white"
+            app:layout_constraintLeft_toLeftOf="@id/tv_user_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_name"
+            tools:text="积分：20" />
+
+
+        <View
+            android:id="@+id/view_favorite_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/white"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_top_bg" />
+
+        <ImageView
+            android:id="@+id/iv_favorite_icon"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_12"
+            android:background="@drawable/ic_user_collect"
+            app:layout_constraintBottom_toBottomOf="@id/view_favorite_bg"
+            app:layout_constraintLeft_toLeftOf="@id/view_favorite_bg"
+            app:layout_constraintTop_toTopOf="@id/view_favorite_bg" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:text="我的收藏"
+            android:textColor="@color/colorBlack"
+            app:layout_constraintBottom_toBottomOf="@id/iv_favorite_icon"
+            app:layout_constraintLeft_toRightOf="@id/iv_favorite_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_favorite_icon" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_12"
+            android:background="@drawable/ic_user_arrow_right"
+            app:layout_constraintBottom_toBottomOf="@id/view_favorite_bg"
+            app:layout_constraintRight_toRightOf="@id/view_favorite_bg"
+            app:layout_constraintTop_toTopOf="@id/view_favorite_bg" />
+
+
+        <TextView
+            android:id="@+id/tv_btn_exit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/dp_50"
+            android:background="@drawable/shape_theme_bg_btn"
+            android:paddingLeft="@dimen/dp_60"
+            android:paddingTop="@dimen/dp_8"
+            android:paddingRight="@dimen/dp_60"
+            android:paddingBottom="@dimen/dp_8"
+            android:text="退出登录"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_18"
+            android:visibility="@{item.mBtnIsShow?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

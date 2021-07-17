@@ -1,6 +1,7 @@
 package com.bbq.home.repo
 
 import com.bbq.base.rository.BaseRepository
+import com.bbq.base.rository.StateLiveData
 import com.bbq.home.api.HomeApi
 import com.bbq.home.bean.ArticleBean
 import com.bbq.home.bean.ArticleTag
@@ -62,4 +63,21 @@ class HomeRepo(private val homeApi: HomeApi) :
         val result = callRequest { handleResponse(homeApi.unCollect(id)) }
         return result is ResultState.Success
     }
+
+
+    suspend fun getFaqList(
+        position: Int,
+        data: StateLiveData<BasePagingResult<List<ArticleBean>>>
+    ) {
+        executeRequest({ homeApi.wendaList(position) }, data)
+    }
+
+
+    suspend fun getCollectionList(
+        position: Int,
+        data: StateLiveData<BasePagingResult<List<ArticleBean>>>
+    ) {
+        executeRequest({ homeApi.lgCollectList(position) }, data)
+    }
+
 }

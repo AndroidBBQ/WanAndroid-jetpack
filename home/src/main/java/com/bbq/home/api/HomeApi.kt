@@ -41,4 +41,13 @@ interface HomeApi {
     //取消收藏  文章列表 文章id，拼接在链接中。
     @POST("lg/uncollect_originId/{id}/json")
     suspend fun unCollect(@Path("id") id: Int?): BaseResult<String>
+
+    //获取问答列表
+    @GET("wenda/list/{page}/json ")
+    suspend fun wendaList(@Path("page") page: Int): BaseResult<BasePagingResult<List<ArticleBean>>>
+
+
+    //自己收藏文章列表
+    @GET("lg/collect/list/{page}/json")
+    suspend fun lgCollectList(@Path("page") page: Int): BaseResult<BasePagingResult<List<ArticleBean>>>
 }

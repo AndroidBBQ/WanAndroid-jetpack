@@ -9,9 +9,10 @@
         android:src="@drawable/ic_result_nodata" />
 
     <TextView
+        android:id="@+id/tv_nodata"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="暂无数据，点击重试~"
+        android:text="@string/base_no_data_click"
         android:textColor="#48495F" />
 </LinearLayout>

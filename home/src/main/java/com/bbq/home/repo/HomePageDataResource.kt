@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.room.withTransaction
 import com.bbq.home.bean.ArticleBean
+import com.bbq.home.db.HomeDatabase
 import com.bbq.net.model.ResultState
 
 class HomePageDataResource(val repo: HomeRepo, val database: HomeDatabase) :

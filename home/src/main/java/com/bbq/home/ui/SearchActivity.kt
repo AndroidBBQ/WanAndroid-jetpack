@@ -5,23 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
 import android.widget.TextView
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbq.base.base.BaseVMActivity
+import com.bbq.base.bean.EventCollectBean
 import com.bbq.base.route.LoginServiceUtils
 import com.bbq.base.route.WebService
 import com.bbq.base.utils.KeyBoardUtils
+import com.bbq.base.utils.LiveDataBus
 import com.bbq.base.utils.SpUtils
 import com.bbq.home.R
 import com.bbq.home.adapter.HistoryAdapter
 import com.bbq.home.adapter.HomeArticleAdapter
 import com.bbq.home.databinding.ActivitySearchBinding
 import com.bbq.home.viewmodel.SearchActivityVM
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemClickListener
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -45,6 +44,15 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
         initTopSearch()
         initHistory()
         initSearch()
+        LiveDataBus.with<EventCollectBean>("EventCollectBean")
+            .observe(this, {
+                mArticleAdapter.data.forEachIndexed { index, articleBean ->
+                    if (articleBean.id == it.articleId) {
+                        articleBean.collect = it.isCollect
+                        mArticleAdapter.notifyItemChanged(index)
+                    }
+                }
+            })
     }
 
     private fun initSearch() {
@@ -53,7 +61,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
         mArticleAdapter.setOnItemClickListener { adapter, view, position ->
             val bean = mArticleAdapter.getItem(position)
             ARouter.getInstance().navigation(WebService::class.java)
-                .goWeb(this, bean.title, bean.link!!,bean.id,bean.collect)
+                .goWeb(this, bean.title, bean.link!!, bean.id, bean.collect)
         }
         mArticleAdapter.setOnItemChildClickListener { adapter, view, position ->
             if (view.id == R.id.tvCollect) {
@@ -68,7 +76,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
                     lifecycleScope.launchWhenCreated {
                         val result = viewModel.unCollect(bean.id)
                         if (result) {
-                            bean.collect=false
+                            bean.collect = false
                             mArticleAdapter.notifyItemChanged(position)
                             toast("取消收藏成功！")
                         } else {
@@ -80,7 +88,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
                     lifecycleScope.launchWhenCreated {
                         val result = viewModel.collect(bean.id)
                         if (result) {
-                            bean.collect=true
+                            bean.collect = true
                             mArticleAdapter.notifyItemChanged(position)
                             toast("收藏成功！")
                         } else {
@@ -177,7 +185,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
             if (it.isNullOrEmpty()) {
                 mArticleAdapter.setNewInstance(mutableListOf())
                 //说明是第一页，而且没有数据
-                mArticleAdapter.setEmptyView(getEmptyDataView(mBinding.recyclerSearchResult))
+                mArticleAdapter.setEmptyView(getMsgEmptyDataView(mBinding.recyclerSearchResult))
                 return@observe
             }
             //有数据
@@ -203,7 +211,7 @@ class SearchActivity : BaseVMActivity<ActivitySearchBinding>() {
                 //必须要先把数组设置为空
                 mArticleAdapter.setNewInstance(mutableListOf())
                 //如果网络错误了
-                mArticleAdapter.setEmptyView(getErrorView(mBinding.recyclerSearchResult))
+                mArticleAdapter.setEmptyView(getMsgErrorView(mBinding.recyclerSearchResult))
 //                mArticleAdapter.loadMoreModule.isEnableLoadMore=true
 //                mArticleAdapter.loadMoreModule.loadMoreFail()
             }

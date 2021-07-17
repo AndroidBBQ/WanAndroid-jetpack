@@ -7,6 +7,11 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
 }
+kapt {
+    arguments {
+        arg("AROUTER_MODULE_NAME", project.getName())
+    }
+}
 
 android {
     compileSdkVersion BuildVersion.compileSdkVersion
@@ -45,6 +50,7 @@ dependencies {
     implementation Deps.banner
     implementation Deps.flexbox
     kapt AndroidX.room_compiler
+    kapt Deps.aroute_processor
 
 
 }

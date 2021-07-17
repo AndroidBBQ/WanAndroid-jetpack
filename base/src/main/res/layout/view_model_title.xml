@@ -19,7 +19,7 @@
         android:background="@{title.background}"
         android:orientation="horizontal"
         android:paddingTop="@dimen/dp_20"
-        tools:background="@color/color_0099ff">
+        tools:background="@color/theme">
 
         <TextView
             android:layout_width="wrap_content"

@@ -3,7 +3,8 @@
     package="com.bbq.home">
 
     <application>
-        <activity android:name=".ui.SearchActivity"></activity>
+        <activity android:name=".ui.SearchActivity" />
+        <activity android:name=".ui.CollectionActivity" />
     </application>
 
 </manifest>

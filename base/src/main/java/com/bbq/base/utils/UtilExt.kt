@@ -1,5 +1,7 @@
 package com.bbq.base.utils
 
+import android.text.Html
+import android.text.Spanned
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bbq.base.R
@@ -32,6 +34,10 @@ fun Boolean?.truely() = this != null && this
 
 fun Boolean?.falsely() = !truely()
 
+
+fun String.getHtmlStr(): Spanned {
+    return Html.fromHtml(this)
+}
 
 private val mColors = arrayOf(
     R.color.colorBlue.getResColor(),

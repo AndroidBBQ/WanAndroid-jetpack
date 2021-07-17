@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bbq.base.R
 import com.bbq.base.utils.ActivityUtil
 import com.bbq.base.utils.StatusBarUtil
+import com.bbq.base.utils.getResColor
 import com.bbq.base.view.LoadingDialog
 import com.hjq.toast.ToastUtils
 

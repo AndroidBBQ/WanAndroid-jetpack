@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WanAndroid</string>
+    <string name="app_name">玩安卓</string>
 
     <string name="HomeFragment">HomeFragment</string>
     <string name="FaqFragment">FaqFragment</string>

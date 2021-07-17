@@ -16,10 +16,6 @@
         android:id="@+id/navigation_navi"
         android:icon="@drawable/ic_icon_navigation"
         android:title="导航" />
-    <item
-        android:id="@+id/navigation_tree"
-        android:icon="@drawable/ic_icon_system"
-        android:title="体系" />
 
     <item
         android:id="@+id/navigation_mine"

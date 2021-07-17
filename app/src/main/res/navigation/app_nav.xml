@@ -13,14 +13,14 @@
 
     <fragment
         android:id="@+id/navigation_faq"
-        android:name="com.bbq.faq.ui.FaqFragment"
+        android:name="com.bbq.home.ui.FaqFragment"
         android:label="FaqFragment"
         tools:layout="@layout/fragment_faq" />
     <fragment
         android:id="@+id/navigation_navi"
         android:name="com.bbq.navigation.ui.NavigationFragment"
         android:label="NavigationFragment"
-        tools:layout="@layout/fragment_navigation" />
+        tools:layout="@layout/nav_fragment_navigation" />
     <fragment
         android:id="@+id/navigation_tree"
         android:name="com.bbq.system.ui.SystemFragment"
