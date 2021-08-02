@@ -4,6 +4,8 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bbq.base.base.BaseVMFragment
+import com.bbq.base.loadsir.EmptyCallback
+import com.bbq.base.loadsir.ErrorCallback
 import com.bbq.base.route.LoginServiceUtils
 import com.bbq.base.route.WebServiceUtils
 import com.bbq.base.utils.showToast
@@ -15,6 +17,7 @@ import com.bbq.navigation.bean.PublicBean
 import com.bbq.navigation.databinding.NavFragmentProjectTreeTabBinding
 import com.bbq.navigation.viewmodel.NavTabVM
 import com.bbq.net.model.DataStatus
+import com.kingja.loadsir.core.LoadSir
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProjectTreeTabFragment : BaseVMFragment<NavFragmentProjectTreeTabBinding>() {
@@ -37,6 +40,18 @@ class ProjectTreeTabFragment : BaseVMFragment<NavFragmentProjectTreeTabBinding>(
 
     private val mRightAdapter by lazy {
         ProjectRightArticleAdapter(mRightList)
+    }
+
+    private val mLoadSir by lazy {
+        val loadSir = LoadSir.Builder()
+            .addCallback(EmptyCallback())
+            .addCallback(ErrorCallback())
+            .setDefaultCallback(ErrorCallback::class.java)
+            .build()
+
+        loadSir.register(mBinding.root) {
+            viewModel.getProjectLeft()
+        }
     }
 
     private lateinit var mCurrentNavTab: PublicBean
@@ -138,12 +153,15 @@ class ProjectTreeTabFragment : BaseVMFragment<NavFragmentProjectTreeTabBinding>(
                 }
                 DataStatus.STATE_ERROR -> {
                     dismissLoading()
-                    it?.exception?.msg?.showToast()
+//                    it?.exception?.msg?.showToast()
+                    mLoadSir.showCallback(ErrorCallback::class.java)
+
                 }
                 DataStatus.STATE_SUCCESS -> {
                     dismissLoading()
                     if (it.data.isNullOrEmpty()) {
-                        toast("数据为空!")
+//                        toast("数据为空!")
+                        mLoadSir.showCallback(EmptyCallback::class.java)
                         return@observe
                     }
                     mLeftList.clear()

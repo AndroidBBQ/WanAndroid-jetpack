@@ -7,14 +7,15 @@ import com.kingja.loadsir.callback.Callback
 
 class EmptyCallback : Callback() {
     override fun onCreateView(): Int {
-        return R.layout.base_layout_empty
+        return R.layout.empty_view
     }
 
-    //当前Callback的点击事件，如果返回true则覆盖注册时的onReload()，如果返回false则两者都执行，先执行onReloadEvent()。
-    override fun onReloadEvent(
-        context: Context,
-        view: View
-    ): Boolean {
-        return false
+    override fun onViewCreate(context: Context?, view: View?) {
+        super.onViewCreate(context, view)
+
+    }
+
+    override fun onReloadEvent(context: Context?, view: View?): Boolean {
+        return super.onReloadEvent(context, view)
     }
 }

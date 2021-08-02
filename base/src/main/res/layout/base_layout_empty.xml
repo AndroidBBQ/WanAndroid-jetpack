@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:drawablePadding="10dp"
         android:text="暂无数据"
-        android:textStyle="bold"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"

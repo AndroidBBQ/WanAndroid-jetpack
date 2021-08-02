@@ -1,13 +1,16 @@
 package com.bbq.wanandroid.app
 
 import android.content.Context
+import androidx.loader.content.Loader
 import androidx.multidex.MultiDex
 import com.alibaba.android.arouter.launcher.ARouter
 import com.bbq.base.base.BaseApp
+import com.bbq.base.loadsir.EmptyCallback
 import com.bbq.base.view.CustomBlackToastStyle
 import com.bbq.wanandroid.BuildConfig
 import com.hjq.permissions.XXPermissions
 import com.hjq.toast.ToastUtils
+import com.kingja.loadsir.core.LoadSir
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.mmkv.MMKV
 import org.koin.android.ext.koin.androidContext
@@ -40,6 +43,11 @@ class WanApp : BaseApp() {
             layout.setEnableOverScrollDrag(true)
             layout.setFooterMaxDragRate(4.0f)
         }
+        //loadsir
+        LoadSir.beginBuilder()
+            .addCallback(EmptyCallback())
+            .addCallback(EmptyCallback())
+            .commit()
     }
 
 }
