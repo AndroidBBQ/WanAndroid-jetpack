@@ -1,11 +1,17 @@
 import com.sss.plugin.BuildVersion
 import com.sss.plugin.Deps
 
-plugins {
-    id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+if (isBuildModule.toBoolean()) {
+    //作为独立App应用运行
+    apply plugin: 'com.android.application'
+} else {
+    //作为组件运行
+    apply plugin: 'com.android.library'
 }
+apply plugin:'kotlin-android'
+apply plugin:'kotlin-kapt'
+
+
 kapt {
     arguments {
         arg("AROUTER_MODULE_NAME", project.getName())
@@ -40,6 +46,23 @@ android {
     }
     buildFeatures {
         dataBinding = true
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+            if (isBuildModule.toBoolean()) {
+                //独立运行
+                manifest.srcFile 'src/main/alone/AndroidManifest.xml'
+            } else {
+                //合并到宿主
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+                resources {
+                    //正式版本时，排除alone文件夹下所有调试文件
+                    exclude 'src/main/alone/*'
+                }
+            }
+        }
     }
 }
 
